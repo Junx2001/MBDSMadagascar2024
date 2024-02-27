@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RenduDirective } from '../shared/rendu.directive';
 
 import { AssignmentDetailComponent } from './assignment-detail/assignment-detail.component';
+import { AddAssignmentComponent } from './add-assignment/add-assignment.component';
 
 
 import { FormsModule } from '@angular/forms';
@@ -18,6 +19,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { OnInit } from '@angular/core';
 import { Assignment } from './assignment.model';
 import { provideNativeDateAdapter } from '@angular/material/core';
+import { AssignmentsService } from '../shared/assignments.service';
 
 @Component({
   selector: 'app-assignments',
@@ -32,54 +34,21 @@ import { provideNativeDateAdapter } from '@angular/material/core';
     MatIconModule,
     MatListModule,
     MatDividerModule,
-    AssignmentDetailComponent],
+    AssignmentDetailComponent,
+    AddAssignmentComponent],
   templateUrl: './assignments.component.html',
   styleUrl: './assignments.component.css'
 })
 export class AssignmentsComponent implements OnInit{
-  titre = 'Ajour d\'un devoir';
-  ajoutActive = false;
-  nomDevoir:string = "";
-  datedeRendu = undefined;
-
   assignmentSelectionne!:Assignment;
+  formVisible = false;
+  assignments: Assignment[] = [];
 
+  constructor(private assignmentService:AssignmentsService) { }
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.ajoutActive = true;
-    },2000);
+    this.getAssignments();
   }
-
-  onSubmit(){
-    if(this.nomDevoir == '' || this.datedeRendu == undefined){
-      return;
-    }
-    const newAssignment = new Assignment();
-    newAssignment.nom = this.nomDevoir;
-    newAssignment.datedeRendu = this.datedeRendu;
-    newAssignment.rendu = false;
-
-    this.assignments.push(newAssignment);
-  }
-
-  assignments:Assignment[] = [
-    {
-      nom : "Devoir Angular de  Michel Buffa",
-      datedeRendu : new Date("2024-02-15"),
-      rendu : false
-    },
-    {
-      nom : "Devoir SQL3 de Serge Miranda",
-      datedeRendu : new Date("2024-01-15"),
-      rendu : true
-    },
-    {
-      nom : "Devoir BD de Mr Gabriel Mopolo",
-      datedeRendu : new Date("2024-03-01"),
-      rendu : false
-    }
-  ]
 
   getColor(a:any){
     return a.rendu ? 'green' : 'red';
@@ -88,4 +57,25 @@ export class AssignmentsComponent implements OnInit{
   assignmentClique(assignment:Assignment){
     this.assignmentSelectionne = assignment;
   }
+  onAddAssignementBtnClick(){
+    this.formVisible = true;
+  }
+  onNouvelAssignment(newAssignment:Assignment){
+    //this.assignments.push(newAssignment);
+    this.assignmentService.addAssignments(newAssignment).subscribe(message =>
+      console.log(message));
+    this.formVisible = false;
+  }
+  onDeleteAssignment(assignmentToDelete:Assignment){
+    // this.assignments = this.assignments.filter(a => a !== assignmentToDelete);
+    this.assignmentService.deleteAssignment(assignmentToDelete).subscribe(message =>
+      console.log(message));
+
+  }
+
+  getAssignments(){
+    this.assignmentService.getAssignments()
+    .subscribe(assignments => this.assignments = assignments);
+  }
+
 }

@@ -1,21 +1,8 @@
-table, tr, td{
-  border: 1px solid black;
-  border-collapse: collapse;
-  padding: 20px;
-}
-
-.rendu{
-  color: green;
-}
-
-.nonRendu{
-  color: red;
-  background-color: yellow;
-
-}
-
-.form{
+.container {
   display: flex;
   flex-direction: column;
-  margin: 5px;
+}
+
+.ajouterBtn {
+  align-self: flex-end;
 }
