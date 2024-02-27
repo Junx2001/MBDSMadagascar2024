@@ -7,31 +7,40 @@
     placeholder="Nom du devoir" required/>
   </mat-form-field>
 
-  <mat-form-field appearance="fill">
-
-    <input matInput [matDatepicker]="picker"
-    placeholder="Date de rendu"
-    [(ngModel)]="datedeRendu" name="date" required />
+  <mat-form-field>
+    <mat-label>Date de Rendu</mat-label>
+    <input matInput [matDatepicker]="picker" [(ngModel)]="datedeRendu" name="date">
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
 
-  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-  <mat-datepicker #picker></mat-datepicker>
 
-  <button mat-stroked-button color="primary" [disabled]="!ajoutActive">
+  <button mat-stroked-button color="primary" [disabled]="nomDevoir=='' || datedeRendu==undefined">
     <mat-icon>add</mat-icon>
     <span>Ajouter un devoir</span>
   </button>
 </form>
 
 <h2>Avec Angular inférieur à la version 17</h2>
-<ul>
-  <div *ngFor="let a of assignments">
-    <li>
-      {{ a.nom }}, date de Rendu : {{ a.datedeRendu }}, rendu : {{ a.rendu }}
-    </li>
-  </div>
-</ul>
 
+
+<mat-divider></mat-divider>
+
+<mat-list *ngFor="let a of assignments">
+  <mat-list-item (click)="assignmentClique(a)">
+    <h3 matListItemTitle> {{a.datedeRendu | date }}</h3>
+    <p matListItemLine [ngStyle]="{ color : getColor(a)}">
+      {{a.nom}} rendu: {{a.rendu}}
+    </p>
+  </mat-list-item>
+  <mat-divider></mat-divider>
+</mat-list>
+
+<app-assignment-detail [assignmentTransmis]="assignmentSelectionne"></app-assignment-detail>
+
+
+<!--
 <h2>Avec Angular sup à la version 17</h2>
 <table>
   <tbody>
@@ -51,4 +60,4 @@
     </div>
     }
   </tbody>
-</table>
+</table> -->
