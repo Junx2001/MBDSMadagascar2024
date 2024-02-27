@@ -3,3 +3,13 @@ table, tr, td{
   border-collapse: collapse;
   padding: 20px;
 }
+
+.rendu{
+  color: green;
+}
+
+.nonRendu{
+  color: red;
+  background-color: yellow;
+
+}
