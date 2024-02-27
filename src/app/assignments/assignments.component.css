@@ -13,3 +13,9 @@ table, tr, td{
   background-color: yellow;
 
 }
+
+.form{
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
+}
