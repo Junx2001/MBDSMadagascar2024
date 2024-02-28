@@ -1,4 +1,4 @@
-import { Component , EventEmitter, Input, Output, OnInit} from '@angular/core';
+import { Component , Input, OnInit} from '@angular/core';
 import { Assignment } from '../assignment.model';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -20,7 +20,6 @@ import { CommonModule } from '@angular/common';
 })
 export class AssignmentDetailComponent implements OnInit{
   @Input() assignmentTransmis: Assignment|undefined;
-  @Output() deleteAssignment = new EventEmitter<Assignment>();
 
   constructor(private assignmentService:AssignmentsService) { }
 
@@ -36,9 +35,14 @@ export class AssignmentDetailComponent implements OnInit{
   }
   onDeleteBtnClick()
   {
+    // if(this.assignmentTransmis){
+    //   this.deleteAssignment.emit(this.assignmentTransmis);
+    //   this.assignmentTransmis = undefined;
+    // }
     if(this.assignmentTransmis){
-      this.deleteAssignment.emit(this.assignmentTransmis);
-      this.assignmentTransmis = undefined;
+      this.assignmentService.deleteAssignment(this.assignmentTransmis).subscribe(message =>
+        console.log(message));
+        this.assignmentTransmis = undefined;
     }
   }
 }

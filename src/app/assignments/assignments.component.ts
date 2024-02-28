@@ -66,12 +66,6 @@ export class AssignmentsComponent implements OnInit{
       console.log(message));
     this.formVisible = false;
   }
-  onDeleteAssignment(assignmentToDelete:Assignment){
-    // this.assignments = this.assignments.filter(a => a !== assignmentToDelete);
-    this.assignmentService.deleteAssignment(assignmentToDelete).subscribe(message =>
-      console.log(message));
-
-  }
 
   getAssignments(){
     this.assignmentService.getAssignments()
