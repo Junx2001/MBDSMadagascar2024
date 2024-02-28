@@ -13,11 +13,11 @@
           </mat-checkbox>
         }
 
-          <button mat-flat-button color="warn" (click)="onDeleteBtnClick()">Supprimer</button>
+          <button mat-flat-button color="warn" (click)="onDeleteBtnClick()" [disabled]="!isAdmin()">Supprimer</button>
           <nav>
             <!-- <a [routerLink]="['/assignment', assignmentTransmis.id, 'edit']"> -->
             <a routerLink="edit">
-              <button mat-flat-button color="primary">Edit</button>
+              <button mat-flat-button color="primary" [disabled]="!isAdmin()">Edit</button>
             </a>
           </nav>
 

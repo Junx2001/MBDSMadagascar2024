@@ -8,6 +8,7 @@ import { AssignmentsService } from '../../shared/assignments.service';
 
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../shared/auth.service';
 
 @Component({
   selector: 'app-assignment-detail',
@@ -24,6 +25,7 @@ export class AssignmentDetailComponent implements OnInit{
   /*@Input()*/ assignmentTransmis: Assignment|undefined;
 
   constructor(private assignmentService:AssignmentsService,
+    private authService: AuthService,
     private route: ActivatedRoute,
     private router: Router) { }
 
@@ -67,5 +69,9 @@ export class AssignmentDetailComponent implements OnInit{
     const id = +this.route.snapshot.params['id'];
     this.assignmentService.getAssignement(id)
     .subscribe(a => this.assignmentTransmis = a);
+  }
+
+  isAdmin(){
+    return this.authService.loggedIn;
   }
 }
