@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { map } from 'rxjs';}
 import { Assignment } from '../assignments/assignment.model';
 import { LoggingService } from './logging.service';
 import { HttpClient } from '@angular/common/http';
@@ -21,31 +22,43 @@ export class AssignmentsService {
   }
 
   getAssignement(id:number):Observable<Assignment | undefined> {
-    const a:Assignment|undefined = this.assignments.find(a => a.id === id);
-    return of(a);
+    return this.http.get<Assignment>(this.uri + '/' + id)
+    .pipe(
+      map(a => {
+      a.nom += "MODIFIE PAR LE PIPE";
+      return a;
+
+    }));
+
+    //const a:Assignment|undefined = this.assignments.find(a => a.id === id);
+    //return of(a);
   }
 
-  addAssignments(assignment:Assignment):Observable<string> {
-    this.assignments.push(assignment);
+  addAssignments(assignment:Assignment):Observable<any> {
+    // this.assignments.push(assignment);
     this.logginService.log(assignment.nom, "Ajouté");
-    return of("Assignment ajouté");
+    // return of("Assignment ajouté");
+    return this.http.post(this.uri, assignment);
+
   }
 
-  updateAssignment(assignment:Assignment):Observable<string> {
-    const index = this.assignments.findIndex(a => a === assignment);
+  updateAssignment(assignment:Assignment):Observable<any> {
+    // const index = this.assignments.findIndex(a => a === assignment);
 
-    this.assignments[index].rendu = true;
+    // this.assignments[index].rendu = true;
     this.logginService.log(assignment.nom, "Modifié");
 
-    return of("Assignment rendu (Modifié)");
+    // return of("Assignment rendu (Modifié)");
+    return this.http.put(this.uri, assignment);
+
   }
 
-  deleteAssignment(assignment:Assignment):Observable<string> {
-    let pos = this.assignments.indexOf(assignment);
-    this.assignments.splice(pos, 1);
+  deleteAssignment(assignment:Assignment):Observable<any> {
+    // let pos = this.assignments.indexOf(assignment);
+    // this.assignments.splice(pos, 1);
 
-    //this.assignments = this.assignments.filter(a => a !== assignment);
     this.logginService.log(assignment.nom, "Supprimé");
-    return of("Assignment service : assignment supprimé !");
+    //return of("Assignment service : assignment supprimé !");
+    return this.http.delete(this.uri + '/' + assignment._id);
   }
 }

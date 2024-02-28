@@ -53,7 +53,7 @@ export class AddAssignmentComponent implements OnInit {
       return;
     }
     const newAssignment = new Assignment();
-    newAssignment.id = Math.floor(Math.random() * 10000) + 1;
+    //newAssignment.id = Math.floor(Math.random() * 10000) + 1;
     newAssignment.nom = this.nomDevoir;
     newAssignment.dateDeRendu = this.dateDeRendu;
     newAssignment.rendu = false;
