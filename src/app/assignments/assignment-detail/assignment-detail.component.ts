@@ -7,7 +7,7 @@ import { AssignmentsService } from '../../shared/assignments.service';
 
 
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-assignment-detail',
@@ -15,7 +15,8 @@ import { ActivatedRoute, Router } from '@angular/router';
   imports: [MatCardModule,
     CommonModule,
     MatCheckboxModule,
-    MatButtonModule],
+    MatButtonModule,
+    RouterLink],
   templateUrl: './assignment-detail.component.html',
   styleUrl: './assignment-detail.component.css'
 })
@@ -27,6 +28,11 @@ export class AssignmentDetailComponent implements OnInit{
     private router: Router) { }
 
   ngOnInit(): void {
+    // Pour récuperer les queryParams
+    console.log(this.route.snapshot.queryParams);
+
+    // Pour récuperer les fragments
+    console.log(this.route.snapshot.fragment);
     this.getAssignment();
   }
 
