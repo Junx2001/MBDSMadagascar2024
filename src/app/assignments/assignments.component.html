@@ -12,11 +12,11 @@
 
   <mat-list *ngFor="let a of assignments">
 
-    <nav><a routerLink="/assignment/{{a.id}}">
+    <nav><a routerLink="/assignment/{{a._id}}">
     <mat-list-item (click)="assignmentClique(a)">
 
       <h3 matListItemTitle> {{a.dateDeRendu | date }}</h3>
-      <p matListItemLine> {{ a.id }}</p>
+      <p matListItemLine> {{ a._id }}</p>
       <p matListItemLine [ngStyle]="{ color : getColor(a)}">
         {{a.nom}} rendu: {{a.rendu}}
       </p>
