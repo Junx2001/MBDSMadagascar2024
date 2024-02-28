@@ -15,7 +15,7 @@
     <nav><a routerLink="/assignment/{{a.id}}">
     <mat-list-item (click)="assignmentClique(a)">
 
-      <h3 matListItemTitle> {{a.datedeRendu | date }}</h3>
+      <h3 matListItemTitle> {{a.dateDeRendu | date }}</h3>
       <p matListItemLine> {{ a.id }}</p>
       <p matListItemLine [ngStyle]="{ color : getColor(a)}">
         {{a.nom}} rendu: {{a.rendu}}

@@ -14,19 +14,19 @@ export class AssignmentsService {
     {
       id : 1,
       nom : "Devoir Angular de  Michel Buffa",
-      datedeRendu : new Date("2024-02-15"),
+      dateDeRendu : new Date("2024-02-15"),
       rendu : false
     },
     {
       id : 2,
       nom : "Devoir SQL3 de Serge Miranda",
-      datedeRendu : new Date("2024-01-15"),
+      dateDeRendu : new Date("2024-01-15"),
       rendu : true
     },
     {
       id : 3,
       nom : "Devoir BD de Mr Gabriel Mopolo",
-      datedeRendu : new Date("2024-03-01"),
+      dateDeRendu : new Date("2024-03-01"),
       rendu : false
     }
   ]

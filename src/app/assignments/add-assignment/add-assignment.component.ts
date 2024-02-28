@@ -40,7 +40,7 @@ export class AddAssignmentComponent implements OnInit {
   titre = 'Ajout d\'un devoir';
   ajoutActive = false;
   nomDevoir:string = "";
-  datedeRendu = undefined;
+  dateDeRendu = undefined;
 
   ngOnInit(): void {
     setTimeout(() => {
@@ -49,13 +49,13 @@ export class AddAssignmentComponent implements OnInit {
   }
 
   onSubmit(){
-    if(this.nomDevoir == '' || this.datedeRendu == undefined){
+    if(this.nomDevoir == '' || this.dateDeRendu == undefined){
       return;
     }
     const newAssignment = new Assignment();
     newAssignment.id = Math.floor(Math.random() * 10000) + 1;
     newAssignment.nom = this.nomDevoir;
-    newAssignment.datedeRendu = this.datedeRendu;
+    newAssignment.dateDeRendu = this.dateDeRendu;
     newAssignment.rendu = false;
 
     //this.assignments.push(newAssignment);

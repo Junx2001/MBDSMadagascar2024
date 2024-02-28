@@ -34,7 +34,7 @@ export class EditAssignmentComponent implements OnInit{
 
   // Pour les champs de formulaire
   nomAssignment: string = '';
-  datedeRendu?:Date = undefined;
+  dateDeRendu?:Date = undefined;
 
 
   constructor(private assignmentsService:AssignmentsService,
@@ -50,7 +50,7 @@ export class EditAssignmentComponent implements OnInit{
 
       if(assignment !== undefined){
         this.nomAssignment = assignment.nom; // Add null check here
-        this.datedeRendu = assignment.datedeRendu; // Add null check here
+        this.dateDeRendu = assignment.dateDeRendu; // Add null check here
       }
     });
 
@@ -60,11 +60,11 @@ export class EditAssignmentComponent implements OnInit{
 
   onSaveAssignment(){
     if (!this.assignment) return;
-    if (!this.nomAssignment || this.datedeRendu === undefined) return;
+    if (!this.nomAssignment || this.dateDeRendu === undefined) return;
 
     // on récupère les valeurs dans le formulaire
     this.assignment.nom = this.nomAssignment;
-    this.assignment.datedeRendu = this.datedeRendu;
+    this.assignment.dateDeRendu = this.dateDeRendu;
     this.assignmentsService
       .updateAssignment(this.assignment)
       .subscribe((message) => {
