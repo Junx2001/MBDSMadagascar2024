@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, OnInit } from '@angular/core';
+import { Component, /*EventEmitter, Output,*/ OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -11,6 +11,8 @@ import { MatButtonModule } from '@angular/material/button';
 
 
 import { Assignment } from '../assignment.model';
+import { AssignmentsService } from '../../shared/assignments.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-add-assignment',
   standalone: true,
@@ -30,7 +32,10 @@ import { Assignment } from '../assignment.model';
   styleUrl: './add-assignment.component.css'
 })
 export class AddAssignmentComponent implements OnInit {
-  @Output() nouvelAssignment = new EventEmitter<Assignment>();
+  //@Output() nouvelAssignment = new EventEmitter<Assignment>();
+
+  constructor(private assignmentService:AssignmentsService,
+    private router: Router) { }
 
   titre = 'Ajout d\'un devoir';
   ajoutActive = false;
@@ -48,17 +53,22 @@ export class AddAssignmentComponent implements OnInit {
       return;
     }
     const newAssignment = new Assignment();
+    newAssignment.id = Math.floor(Math.random() * 10000) + 1;
     newAssignment.nom = this.nomDevoir;
     newAssignment.datedeRendu = this.datedeRendu;
     newAssignment.rendu = false;
 
     //this.assignments.push(newAssignment);
-    this.nouvelAssignment.emit(newAssignment);
+    //.nouvelAssignment.emit(newAssignment);
+    this.assignmentService.addAssignments(newAssignment).subscribe(message =>{
+      console.log(message);
+      this.router.navigate(['/home']);
+    });
+
+
+
   }
 
-  returnToList(){
-
-  }
 
 
 }

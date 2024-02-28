@@ -14,6 +14,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
+import { RouterLink } from '@angular/router';
+
 
 
 import { OnInit } from '@angular/core';
@@ -34,6 +36,7 @@ import { AssignmentsService } from '../shared/assignments.service';
     MatIconModule,
     MatListModule,
     MatDividerModule,
+    RouterLink,
     AssignmentDetailComponent,
     AddAssignmentComponent],
   templateUrl: './assignments.component.html',
@@ -60,12 +63,12 @@ export class AssignmentsComponent implements OnInit{
   onAddAssignementBtnClick(){
     this.formVisible = true;
   }
-  onNouvelAssignment(newAssignment:Assignment){
-    //this.assignments.push(newAssignment);
-    this.assignmentService.addAssignments(newAssignment).subscribe(message =>
-      console.log(message));
-    this.formVisible = false;
-  }
+  // onNouvelAssignment(newAssignment:Assignment){
+  //   //this.assignments.push(newAssignment);
+  //   this.assignmentService.addAssignments(newAssignment).subscribe(message =>
+  //     console.log(message));
+  //   this.formVisible = false;
+  // }
 
   getAssignments(){
     this.assignmentService.getAssignments()

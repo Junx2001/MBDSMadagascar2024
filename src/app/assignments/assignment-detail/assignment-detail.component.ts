@@ -7,6 +7,7 @@ import { AssignmentsService } from '../../shared/assignments.service';
 
 
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-assignment-detail',
@@ -19,18 +20,25 @@ import { CommonModule } from '@angular/common';
   styleUrl: './assignment-detail.component.css'
 })
 export class AssignmentDetailComponent implements OnInit{
-  @Input() assignmentTransmis: Assignment|undefined;
+  /*@Input()*/ assignmentTransmis: Assignment|undefined;
 
-  constructor(private assignmentService:AssignmentsService) { }
+  constructor(private assignmentService:AssignmentsService,
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit(): void {
+    this.getAssignment();
   }
 
   onAssignmentRendu(){
     if(this.assignmentTransmis){
       //this.assignmentTransmis.rendu = true;
-      this.assignmentService.updateAssignment(this.assignmentTransmis).subscribe(message =>
-        console.log(message));
+      this.assignmentService.updateAssignment(this.assignmentTransmis).subscribe(message =>{
+        console.log(message);
+        this.router.navigate(['/home']);
+
+      });
+
     }
   }
   onDeleteBtnClick()
@@ -40,9 +48,18 @@ export class AssignmentDetailComponent implements OnInit{
     //   this.assignmentTransmis = undefined;
     // }
     if(this.assignmentTransmis){
-      this.assignmentService.deleteAssignment(this.assignmentTransmis).subscribe(message =>
-        console.log(message));
-        this.assignmentTransmis = undefined;
+      this.assignmentService.deleteAssignment(this.assignmentTransmis).subscribe(message =>{
+        console.log(message);
+         // this.assignmentTransmis = undefined;
+         this.router.navigate(['/home']);
+      });
+
     }
+  }
+
+  getAssignment(){
+    const id = +this.route.snapshot.params['id'];
+    this.assignmentService.getAssignement(id)
+    .subscribe(a => this.assignmentTransmis = a);
   }
 }

@@ -1,28 +1,37 @@
-@if(!formVisible)
-{
+
 <main class="container">
 
-  <button class="ajouterBtn" mat-flat-button color="accent" (click)="onAddAssignementBtnClick()">
-    <mat-icon>add</mat-icon>
-    <span>Ajouter un devoir</span>
-  </button>
+  <div class="ajouterBtn">
+    <a routerLink="/add">
+    <button class="ajouterBtn" mat-flat-button color="accent" (click)="onAddAssignementBtnClick()">
+      <mat-icon>add</mat-icon>
+      <span>Ajouter un devoir</span>
+    </button>
+    </a>
+  </div>
 
   <mat-list *ngFor="let a of assignments">
+
+    <nav><a routerLink="/assignment/{{a.id}}">
     <mat-list-item (click)="assignmentClique(a)">
+
       <h3 matListItemTitle> {{a.datedeRendu | date }}</h3>
+      <p matListItemLine> {{ a.id }}</p>
       <p matListItemLine [ngStyle]="{ color : getColor(a)}">
         {{a.nom}} rendu: {{a.rendu}}
       </p>
+
     </mat-list-item>
     <mat-divider></mat-divider>
+    </a></nav>
+
   </mat-list>
 
-  <app-assignment-detail [assignmentTransmis]="assignmentSelectionne"></app-assignment-detail>
+  <!-- <app-assignment-detail [assignmentTransmis]="assignmentSelectionne"></app-assignment-detail> -->
 
 </main>
-} @else {
-  <app-add-assignment (nouvelAssignment)="onNouvelAssignment($event)"></app-add-assignment>
-}
+<!-- <app-add-assignment (nouvelAssignment)="onNouvelAssignment($event)"></app-add-assignment> -->
+
 
 
 

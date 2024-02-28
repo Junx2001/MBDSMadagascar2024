@@ -12,16 +12,19 @@ export class AssignmentsService {
 
   assignments:Assignment[] = [
     {
+      id : 1,
       nom : "Devoir Angular de  Michel Buffa",
       datedeRendu : new Date("2024-02-15"),
       rendu : false
     },
     {
+      id : 2,
       nom : "Devoir SQL3 de Serge Miranda",
       datedeRendu : new Date("2024-01-15"),
       rendu : true
     },
     {
+      id : 3,
       nom : "Devoir BD de Mr Gabriel Mopolo",
       datedeRendu : new Date("2024-03-01"),
       rendu : false
@@ -30,6 +33,11 @@ export class AssignmentsService {
 
   getAssignments():Observable<Assignment[]> {
     return of(this.assignments);
+  }
+
+  getAssignement(id:number):Observable<Assignment | undefined> {
+    const a:Assignment|undefined = this.assignments.find(a => a.id === id);
+    return of(a);
   }
 
   addAssignments(assignment:Assignment):Observable<string> {
