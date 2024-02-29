@@ -17,6 +17,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatSliderModule } from '@angular/material/slider';
 import { RouterLink } from '@angular/router';
 import {MatTable, MatTableModule} from '@angular/material/table';
+import { PageEvent, MatPaginatorModule } from '@angular/material/paginator';
 
 
 
@@ -43,7 +44,8 @@ import { AssignmentsService } from '../shared/assignments.service';
     RouterLink,
     AssignmentDetailComponent,
     AddAssignmentComponent,
-    MatSliderModule],
+    MatSliderModule,
+    MatPaginatorModule,],
   templateUrl: './assignments.component.html',
   styleUrl: './assignments.component.css'
 })
@@ -121,6 +123,12 @@ export class AssignmentsComponent implements OnInit{
   }
   dernierePage(){
     this.page = this.totalPages;
+    this.getAssignments();
+  }
+
+  handlePageEvent(event: PageEvent){
+    this.page = event.pageIndex + 1;
+    this.limit = event.pageSize;
     this.getAssignments();
   }
 
