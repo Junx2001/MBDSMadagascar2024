@@ -14,6 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatSliderModule } from '@angular/material/slider';
 import { RouterLink } from '@angular/router';
 
 
@@ -38,7 +39,8 @@ import { AssignmentsService } from '../shared/assignments.service';
     MatDividerModule,
     RouterLink,
     AssignmentDetailComponent,
-    AddAssignmentComponent],
+    AddAssignmentComponent,
+    MatSliderModule],
   templateUrl: './assignments.component.html',
   styleUrl: './assignments.component.css'
 })
@@ -46,6 +48,18 @@ export class AssignmentsComponent implements OnInit{
   assignmentSelectionne!:Assignment;
   formVisible = false;
   assignments: Assignment[] = [];
+
+  //Pagination
+  page = 1;
+  limit = 10;
+  totalDocs!:number;
+  totalPages!:number;
+  nextPage!:number;
+  prevPage!:number;
+  hasNextPage!:boolean;
+  hasPrevPage!:boolean;
+
+
 
   constructor(private assignmentService:AssignmentsService) { }
 
@@ -71,8 +85,39 @@ export class AssignmentsComponent implements OnInit{
   // }
 
   getAssignments(){
-    this.assignmentService.getAssignments()
-    .subscribe(assignments => this.assignments = assignments);
+    this.assignmentService.getAssignmentsPagines(this.page, this.limit)
+    .subscribe(data => {
+      console.log("Données Arrivées");
+      this.assignments = data.docs;
+      this.totalDocs = data.totalDocs;
+      this.totalPages = data.totalPages;
+      this.nextPage = data.nextPage;
+      this.prevPage = data.prevPage;
+      this.hasNextPage = data.hasNextPage;
+      this.hasPrevPage = data.hasPrevPage;
+    });
+
+    console.log("Requete Envoyées");
+
   }
+
+  pagePrecedente(){
+    this.page = this.prevPage;
+    this.getAssignments();
+  }
+  pageSuivante(){
+    this.page = this.nextPage;
+    this.getAssignments();
+  }
+
+  premierePage(){
+    this.page = 1;
+    this.getAssignments();
+  }
+  dernierePage(){
+    this.page = this.totalPages;
+    this.getAssignments();
+  }
+
 
 }

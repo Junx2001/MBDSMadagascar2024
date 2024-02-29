@@ -1,3 +1,4 @@
+import { AssignmentsService } from './shared/assignments.service';
 import { AuthService } from './shared/auth.service';
 import { Component } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
@@ -21,7 +22,8 @@ export class AppComponent {
   title = 'Application de gestion des devoirs à rendre (Assignments)';
 
   constructor(private authService: AuthService,
-    private router:Router) { }
+    private router:Router,
+    private assignmentsService:AssignmentsService) { }
 
   login(){
     if(!this.authService.loggedIn){
@@ -31,5 +33,19 @@ export class AppComponent {
       this.authService.logOut();
       this.router.navigate(["/home"]);
     }
+  }
+
+  genererBd()
+  {
+    //this.assignmentsService.peuplerBD();
+
+    this.assignmentsService.peuplerBDavecForkJoin()
+     .subscribe(() => {
+       console.log("LA BD A ETE PEUPLEE, TOUS LES ASSIGNMENTS AJOUTES,ON RE-AFFICHE LA LISTE");
+
+	    window.location.reload();
+     })
+
+
   }
 }

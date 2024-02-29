@@ -43,7 +43,7 @@ export class EditAssignmentComponent implements OnInit{
 
   ngOnInit(): void {
 
-    const id = +this.route.snapshot.params['id'];
+    const id = this.route.snapshot.params['id'];
     this.assignmentsService.getAssignement(id)
     .subscribe( (assignment) => {
       this.assignment = assignment;

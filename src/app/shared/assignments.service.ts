@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs';}
+import { Observable, forkJoin, of } from 'rxjs';
 import { Assignment } from '../assignments/assignment.model';
 import { LoggingService } from './logging.service';
 import { HttpClient } from '@angular/common/http';
+import { map, tap } from 'rxjs/operators';
 
+import { bdInitialAssignments } from './data';
 @Injectable({
   providedIn: 'root'
 })
@@ -17,22 +18,42 @@ export class AssignmentsService {
 
   assignments:Assignment[] = [];
 
-  getAssignments():Observable<Assignment[]> {
-    return this.http.get<Assignment[]>(this.uri);
+  // getAssignments():Observable<Assignment[]> {
+  //   return this.http.get<Assignment[]>(this.uri);
+  // }
+
+  getAssignmentsPagines(page:number, limit:number):Observable<any> {
+    return this.http.get<Assignment[]>(this.uri+ "?page=" + page + "&limit=" + limit);
   }
 
-  getAssignement(id:number):Observable<Assignment | undefined> {
-    return this.http.get<Assignment>(this.uri + '/' + id)
-    .pipe(
-      map(a => {
-      a.nom += "MODIFIE PAR LE PIPE";
-      return a;
 
-    }));
+  getAssignement(id:number):Observable<Assignment | undefined> {
+    return this.http.get<Assignment>(this.uri + '/' + id);
+    // .pipe(
+    //   map(a => {
+    //     a.nom += " recu et transformé avec un pipe ...";
+    //     return a;
+    //   }),
+    //   tap(_ => {
+    //     console.log("tap: assignment avec id = "+id+" requete GET envoyée sur MongoDB Cloud");
+    //   }),
+    //   catchError(this.handleError<any>('### catchError: getAssignments by id avec id=' + id))
+    // )
+
 
     //const a:Assignment|undefined = this.assignments.find(a => a.id === id);
     //return of(a);
   }
+
+//   private handleError<T>(operation: any, result?: T) {
+//     return (error: any): Observable<T> => {
+//       console.log(error); // pour afficher dans la console
+//       console.log(operation + ' a échoué ' + error.message);
+
+//       return of(result as T);
+//     }
+//  };
+
 
   addAssignments(assignment:Assignment):Observable<any> {
     // this.assignments.push(assignment);
@@ -61,4 +82,33 @@ export class AssignmentsService {
     //return of("Assignment service : assignment supprimé !");
     return this.http.delete(this.uri + '/' + assignment._id);
   }
+
+  peuplerBD(){
+    bdInitialAssignments.forEach(a => {
+      let nouvelAssignment = new Assignment();
+      nouvelAssignment.nom = a.nom;
+      nouvelAssignment.dateDeRendu = new Date(a.dateDeRendu);
+      nouvelAssignment.rendu = a.rendu;
+
+      this.addAssignments(nouvelAssignment).subscribe(() => {
+        console.log("Assignment"+ nouvelAssignment.nom +" ajouté dans la BD !");
+      });
+    });
+  }
+
+  peuplerBDavecForkJoin():Observable<any> {
+    let appelsVersAddAssignment:Observable<any>[] = [];
+
+    bdInitialAssignments.forEach(a => {
+      const nouvelAssignment = new Assignment();
+      nouvelAssignment.nom = a.nom;
+      nouvelAssignment.dateDeRendu = new Date(a.dateDeRendu);
+      nouvelAssignment.rendu = a.rendu;
+
+      appelsVersAddAssignment.push(this.addAssignments(nouvelAssignment))
+    });
+
+    return forkJoin(appelsVersAddAssignment);
+  }
+
 }

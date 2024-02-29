@@ -10,6 +10,27 @@
     </a>
   </div>
 
+  <p> Nb Doc = {{totalDocs}}, nbPAges = {{ totalPages }}</p>
+  <br>
+  <p> Page courante = {{ page }}, nb docs par page : {{limit}}</p>
+
+  <mat-slider>
+    <input matSliderThumb type="range" min=1 max=20 [(ngModel)]="limit" (change)="getAssignments()">
+  </mat-slider>
+
+  <div>
+    <button mat-raised-button color="primary" [disabled]="!hasPrevPage" (click)="premierePage()">First</button>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+
+    <button mat-raised-button color="warn" [disabled]="!hasPrevPage" (click)="pagePrecedente()">Previous</button>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <button mat-raised-button color="accent" [disabled]="!hasNextPage" (click)="pageSuivante()">Next</button>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+
+    <button mat-raised-button color="primary" [disabled]="!hasNextPage" (click)="dernierePage()">Last</button>
+
+  </div>
+
   <mat-list *ngFor="let a of assignments">
 
     <nav><a routerLink="/assignment/{{a._id}}">
