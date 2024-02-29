@@ -14,7 +14,8 @@ export class AssignmentsService {
   constructor(private logginService:LoggingService,
     private http:HttpClient) { }
 
-  uri = 'http://localhost:8010/api/assignments';
+  //uri = 'http://localhost:8010/api/assignments';
+  uri = 'https://m2-buffa-nodeapi.onrender.com/api/assignments';
 
   assignments:Assignment[] = [];
 

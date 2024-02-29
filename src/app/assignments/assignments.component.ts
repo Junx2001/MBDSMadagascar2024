@@ -16,6 +16,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSliderModule } from '@angular/material/slider';
 import { RouterLink } from '@angular/router';
+import {MatTable, MatTableModule} from '@angular/material/table';
 
 
 
@@ -37,6 +38,8 @@ import { AssignmentsService } from '../shared/assignments.service';
     MatIconModule,
     MatListModule,
     MatDividerModule,
+    MatTableModule,
+    MatTable,
     RouterLink,
     AssignmentDetailComponent,
     AddAssignmentComponent,
@@ -58,6 +61,8 @@ export class AssignmentsComponent implements OnInit{
   prevPage!:number;
   hasNextPage!:boolean;
   hasPrevPage!:boolean;
+
+  displayedColumns: string[] = ['nom', 'dateDeRendu', 'rendu'];
 
 
 
